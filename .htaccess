@@ -1,0 +1,13 @@
+Options +FollowSymlinks
+Options -Indexes
+RewriteEngine on
+
+
+
+
+RewriteRule login_check$ index.php?p=login_check [L]
+RewriteRule login_check/(.*)$ index.php?p=login_check&prm=$1 [L]
+RewriteRule register_form$ index.php?p=register_form [L]
+RewriteRule register_form/(.*)$ index.php?p=register_form&prm=$1 [L]
+RewriteRule admin_bank_list$ index.php?p=admin_bank_list [L]
+RewriteRule admin_bank_list/(.*)$ index.php?p=admin_bank_list&prm=$1 [L]
