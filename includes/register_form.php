@@ -40,36 +40,33 @@ $sponsor_id = $_POST['sponsor_id'];
 $terms_and_conditions = $_POST['terms_and_conditions'];
 $associate_gstin_no = $_POST['associate_gstin_no'];
 $associate_rera_reg_no = $_POST['associate_rera_reg_no'];
-$associate_aadhar_card_front = $_FILE['associate_aadhar_card_front']['tmp_name'];
-$associate_aadhar_card_front_realn = $_FILE['associate_aadhar_card_front']['name'];
-$associate_aadhar_card_back = $_FILE['associate_aadhar_card_back']['tmp_name'];
-$associate_aadhar_card_back_realn = $_FILE['associate_aadhar_card_back']['name'];
-$associate_blank_cheque = $_FILE['associate_blank_cheque']['tmp_name'];
-$associate_blank_cheque_realn = $_FILE['associate_blank_cheque']['name'];
-$associate_pan_card_front = $_FILE['associate_pan_card_front']['tmp_name'];
-$associate_pan_card_front_realn = $_FILE['associate_pan_card_front']['name'];
+$associate_aadhar_card_front = $_POST['associate_aadhar_card_front'];
+$associate_aadhar_card_back = $_POST['associate_aadhar_card_back'];
+$associate_blank_cheque = $_POST['associate_blank_cheque'];
+$associate_pan_card_front = $_POST['associate_pan_card_front'];
+
 
 // POST Request Process Start
 
-$associate_aadhar_card_front_extension = pathinfo($associate_aadhar_card_front_realn, PATHINFO_EXTENSION);
-$associate_aadhar_card_front_new_name = uniqid('file_');
-$new_associate_aadhar_card_front = $associate_aadhar_card_front_new_name . '.' . $associate_aadhar_card_front_extension;
-$associate_aadhar_card_front_target = "public_html/api.shamniestate.com/assets/extra/associate/documents/" . $new_associate_aadhar_card_front;
+// $associate_aadhar_card_front_extension = pathinfo($associate_aadhar_card_front_realn, PATHINFO_EXTENSION);
+// $associate_aadhar_card_front_new_name = uniqid('file_');
+// $new_associate_aadhar_card_front = $associate_aadhar_card_front_new_name . '.' . $associate_aadhar_card_front_extension;
+// $associate_aadhar_card_front_target = "public_html/api.shamniestate.com/assets/extra/associate/documents/" . $new_associate_aadhar_card_front;
 
-$associate_aadhar_card_back_extension = pathinfo($associate_aadhar_card_back_realn, PATHINFO_EXTENSION);
-$associate_aadhar_card_back_new_name = uniqid('file_');
-$new_associate_aadhar_card_back = $associate_aadhar_card_back_new_name . '.' . $associate_aadhar_card_back_extension;
-$associate_aadhar_card_back_target = "public_html/api.shamniestate.com/assets/extra/associate/documents/" . $new_associate_aadhar_card_back;
+// $associate_aadhar_card_back_extension = pathinfo($associate_aadhar_card_back_realn, PATHINFO_EXTENSION);
+// $associate_aadhar_card_back_new_name = uniqid('file_');
+// $new_associate_aadhar_card_back = $associate_aadhar_card_back_new_name . '.' . $associate_aadhar_card_back_extension;
+// $associate_aadhar_card_back_target = "public_html/api.shamniestate.com/assets/extra/associate/documents/" . $new_associate_aadhar_card_back;
 
-$associate_blank_cheque_extension = pathinfo($associate_blank_cheque_realn, PATHINFO_EXTENSION);
-$associate_blank_cheque_new_name = uniqid('file_');
-$new_associate_blank_cheque = $associate_blank_cheque_new_name . '.' . $associate_blank_cheque_extension;
-$associate_blank_cheque_target = "public_html/api.shamniestate.com/assets/extra/associate/documents/" . $new_associate_blank_cheque;
+// $associate_blank_cheque_extension = pathinfo($associate_blank_cheque_realn, PATHINFO_EXTENSION);
+// $associate_blank_cheque_new_name = uniqid('file_');
+// $new_associate_blank_cheque = $associate_blank_cheque_new_name . '.' . $associate_blank_cheque_extension;
+// $associate_blank_cheque_target = "public_html/api.shamniestate.com/assets/extra/associate/documents/" . $new_associate_blank_cheque;
 
-$associate_pan_card_front_extension = pathinfo($associate_pan_card_front_realn, PATHINFO_EXTENSION);
-$associate_pan_card_front_new_name = uniqid('file_');
-$new_associate_pan_card_front = $associate_pan_card_front_new_name . '.' . $associate_pan_card_front_extension;
-$associate_pan_card_front_target = "public_html/api.shamniestate.com/assets/extra/associate/documents/" . $new_associate_pan_card_front;
+// $associate_pan_card_front_extension = pathinfo($associate_pan_card_front_realn, PATHINFO_EXTENSION);
+// $associate_pan_card_front_new_name = uniqid('file_');
+// $new_associate_pan_card_front = $associate_pan_card_front_new_name . '.' . $associate_pan_card_front_extension;
+// $associate_pan_card_front_target = "public_html/api.shamniestate.com/assets/extra/associate/documents/" . $new_associate_pan_card_front;
 
 // POST Request Process End
 
@@ -84,10 +81,10 @@ if (count($rs) == 1) {
     if ($associate_email != '' && $associate_name != '') {
         $sponsor_res = getsponsorid($sponsor_id);
         if ($sponsor_res) {
-            move_uploaded_file($_FILES['associate_aadhar_card_front']['tmp_name'], $associate_aadhar_card_front_target);
-            move_uploaded_file($_FILES['associate_aadhar_card_back']['tmp_name'], $associate_aadhar_card_back_target);
-            move_uploaded_file($_FILES['associate_blank_cheque']['tmp_name'], $associate_blank_cheque_target);
-            move_uploaded_file($_FILES['associate_pan_card_front']['tmp_name'], $associate_pan_card_front_target);
+            // move_uploaded_file($_FILES['associate_aadhar_card_front']['tmp_name'], $associate_aadhar_card_front_target);
+            // move_uploaded_file($_FILES['associate_aadhar_card_back']['tmp_name'], $associate_aadhar_card_back_target);
+            // move_uploaded_file($_FILES['associate_blank_cheque']['tmp_name'], $associate_blank_cheque_target);
+            // move_uploaded_file($_FILES['associate_pan_card_front']['tmp_name'], $associate_pan_card_front_target);
             $Query  = " INSERT INTO " . TBL_ASSOCIATE_ACCOUNT . " SET ";
             $Query .= " account_type						= '" . $account_type . "', ";
             $Query .= " associate_name				    = '" . $associate_name . "', ";

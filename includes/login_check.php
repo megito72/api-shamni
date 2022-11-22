@@ -27,7 +27,7 @@ $all_header = getallheaders();
 $token = substr($all_header['Authorization'], 7);
 
 if ($token != H_Token) {
-  echo  json_encode(["msg" => "Not Authorized..!!", "code" => 400]);
+  echo  json_encode(["msg" => "Not Authorized..!!", "code" => 401]);
   die;
 }
 $email = $_POST['email'];
@@ -55,7 +55,7 @@ if (count($rs1) == 1) {
   if ($rs) {
     echo  json_encode(["msg" => "Login Success", "code" => 200, "Data" => $rs]);
   } else {
-    echo  json_encode(["msg" => "Invalid Credentials", "code" => 200]);
+    echo  json_encode(["msg" => "Invalid Credentials", "code" => 401]);
   }
 } else {
   echo  json_encode(["msg" => "User Not Found", "code" => 400]);
