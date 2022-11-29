@@ -3,20 +3,6 @@ ob_start();
 error_reporting(E_ALL & ~E_NOTICE);
 // header('Access-Control-Allow-Origin: *');
 
-
-
-// $enc_key = "Jordan72";
-// function generateRandomString($length = 4)
-// {
-//   $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-//   $charactersLength = strlen($characters);
-//   $randomString = '';
-//   for ($i = 0; $i < $length; $i++) {
-//     $randomString .= $characters[rand(0, $charactersLength - 1)];
-//   }
-//   return $randomString;
-// }
-
 ?>
 
 <?php
@@ -46,14 +32,39 @@ if (count($rs1) == 1) {
   $QU  = "SELECT * FROM " . TBL_ASSOCIATE_ACCOUNT . " WHERE associate_email='" . $email . "' AND associate_pass='" . $password . "'";
   $objDB->setQuery($QU);
   $rs = $objDB->select();
+  $exp_date = date('Y-m-d', strtotime("+30 days"));
+  if ($rs[0]['access_token'] == '') {
+    $Query1  = " UPDATE " . TBL_ASSOCIATE_ACCOUNT . " SET ";
+    $Query1 .= " access_token			= '" . access_token_gen() . "' ,";
+    $Query1 .= " token_validity			= '" . $exp_date . "' ";
+    $Query1 .= " WHERE associate_email   ='" . $rs[0]['associate_email'] . "' ";
+    $objDB->setQuery($Query1);
+    $objDB->update();
+  } elseif ($rs[0]['access_token'] != '' && $rs[0]['token_validity'] >= date('Y-m-d')) {
+    $Query1  = " UPDATE " . TBL_ASSOCIATE_ACCOUNT . " SET ";
+    $Query1 .= " access_token			= '" . access_token_gen() . "' ,";
+    $Query1 .= " token_validity			= '" . $exp_date . "' ";
+    $Query1 .= " WHERE associate_email   ='" . $rs[0]['associate_email'] . "' ";
+    $objDB->setQuery($Query1);
+    $objDB->update();
+  }
+  $QU1  = "SELECT * FROM " . TBL_ASSOCIATE_ACCOUNT . " WHERE associate_email='" . $email . "' ";
+  $objDB->setQuery($QU1);
+  $rs_check = $objDB->select();
   $objDB->close();
-  $rs_arr = [
-    'uname' => $rs[0]['username'],
-    'type' => $rs[0]['user_type'],
-    'uid' => $rs[0]['user_id']
-  ];
+  unset($rs_check[0]['associate_pass']);
+  unset($rs_check[0]['token_validity']);
+  unset($rs_check[0]['reset_link_token']);
+  unset($rs_check[0]['reset_exp_date']);
+  unset($rs_check[0]['reset_otp_exp_date']);
+  unset($rs_check[0]['terms_and_conditions']);
+  unset($rs_check[0]['form_clearing_heading']);
+  unset($rs_check[0]['associate_mob_status']);
+  unset($rs_check[0]['associate_doc_status']);
+  unset($rs_check[0]['associate_otp']);
+  unset($rs_check[0]['join_type']);
   if ($rs) {
-    echo  json_encode(["msg" => "Login Success", "code" => 200, "Data" => $rs]);
+    echo  json_encode(["msg" => "Login Success", "code" => 200, "Data" => $rs_check]);
   } else {
     echo  json_encode(["msg" => "Invalid Credentials", "code" => 401]);
   }

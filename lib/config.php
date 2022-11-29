@@ -2,7 +2,7 @@
 session_start();
 ob_start();
 error_reporting(E_ALL & ~E_NOTICE);
-
+require_once "vendor/autoload.php";
 date_default_timezone_set('Asia/Kolkata');
 ini_set('session_cookie_secure', 'On');
 ini_set('display_error', 'On');
@@ -40,7 +40,7 @@ define('TBL_PROPERTY_BOOKING_HOLD', 'property_booking_hold');
 define('TBL_PROPERTY_ENQUIRY', 'property_enquiry');
 define('TBL_PROPERTY_FAQ', 'property_faq');
 define('TBL_PROPERTY_GALLERY', 'property_gallery');
-define('TBL_PROPERTY_SOLD', 'property_sold');
+define('TBL_PROPERTY_SLOT', 'property_slot');
 define('TBL_PROPERTY_TYPE', 'property_type');
 define('TBL_PROPERTY_UNIT', 'property_unit');
 define('TBL_VISITOR', 'visitor');

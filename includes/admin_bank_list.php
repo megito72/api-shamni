@@ -8,9 +8,9 @@ error_reporting(E_ALL & ~E_NOTICE);
 $all_header = getallheaders();
 
 // echo print_r($all_header, true);
-$token = substr($all_header['Authorization'], 7);
+$token = $all_header['Access_Token'];
 
-if ($token != H_Token) {
+if (verify_token($token) == false) {
     echo  json_encode(["msg" => "Not Authorized..!!", "code" => 401]);
     die;
 }

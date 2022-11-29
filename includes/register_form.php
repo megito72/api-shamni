@@ -75,8 +75,14 @@ $QU  = "SELECT * FROM " . TBL_ASSOCIATE_ACCOUNT . " WHERE associate_email='" . $
 $objDB->setQuery($QU);
 $rs = $objDB->select();
 
+$QU11  = "SELECT * FROM " . TBL_ASSOCIATE_ACCOUNT . " WHERE associate_mobile='" . $associate_mobile . "' ";
+$objDB->setQuery($QU11);
+$rs11 = $objDB->select();
+
 if (count($rs) == 1) {
     echo  json_encode(["msg" => "Associate Email ID Already in Use", "code" => 200]);
+} elseif (count($rs1) == 1) {
+    echo  json_encode(["msg" => "Associate Mobile Number Already in Use", "code" => 200]);
 } else {
     if ($associate_email != '' && $associate_name != '') {
         $sponsor_res = getsponsorid($sponsor_id);
@@ -86,30 +92,31 @@ if (count($rs) == 1) {
             // move_uploaded_file($_FILES['associate_blank_cheque']['tmp_name'], $associate_blank_cheque_target);
             // move_uploaded_file($_FILES['associate_pan_card_front']['tmp_name'], $associate_pan_card_front_target);
             $Query  = " INSERT INTO " . TBL_ASSOCIATE_ACCOUNT . " SET ";
-            $Query .= " account_type						= '" . $account_type . "', ";
-            $Query .= " associate_name				    = '" . $associate_name . "', ";
-            $Query .= " associate_dob					    = '" . $associate_dob . "', ";
-            $Query .= " associate_mobile					= '" . $associate_mobile . "', ";
-            $Query .= " associate_address					= '" . $associate_address . "', ";
-            $Query .= " associate_state					= '" . $associate_state . "', ";
-            $Query .= " associate_city_zip					= '" . $associate_city_zip . "', ";
-            $Query .= " associate_aadhar_card_no					= '" . $associate_aadhar_card_no . "', ";
-            $Query .= " associate_pan_no					= '" . $associate_pan_no . "', ";
-            $Query .= " associate_bank_name					= '" . $associate_bank_name . "', ";
-            $Query .= " associate_acc_no					= '" . $associate_acc_no . "', ";
-            $Query .= " associate_bnk_ifsc_no					= '" . $associate_bnk_ifsc_no . "', ";
-            $Query .= " associate_bnk_acc_name					= '" . $associate_bnk_acc_name . "', ";
-            $Query .= " associate_email					= '" . $associate_email . "', ";
-            $Query .= " associate_pass					= '" . $associate_pass . "', ";
-            $Query .= " terms_and_conditions					= '1', ";
-            $Query .= " privacy_policy					= '1', ";
-            $Query .= " associate_gstin_no					= '" . $associate_gstin_no . "', ";
+            $Query .= " account_type				= '" . $account_type . "', ";
+            $Query .= " associate_name				= '" . $associate_name . "', ";
+            $Query .= " associate_dob				= '" . $associate_dob . "', ";
+            $Query .= " associate_mobile			= '" . $associate_mobile . "', ";
+            $Query .= " associate_address			= '" . $associate_address . "', ";
+            $Query .= " associate_state				= '" . $associate_state . "', ";
+            $Query .= " associate_city_zip			= '" . $associate_city_zip . "', ";
+            $Query .= " associate_aadhar_card_no	= '" . $associate_aadhar_card_no . "', ";
+            $Query .= " associate_pan_no			= '" . $associate_pan_no . "', ";
+            $Query .= " associate_bank_name			= '" . $associate_bank_name . "', ";
+            $Query .= " associate_acc_no			= '" . $associate_acc_no . "', ";
+            $Query .= " associate_bnk_ifsc_no		= '" . $associate_bnk_ifsc_no . "', ";
+            $Query .= " associate_bnk_acc_name		= '" . $associate_bnk_acc_name . "', ";
+            $Query .= " associate_email				= '" . $associate_email . "', ";
+            $Query .= " associate_pass				= '" . $associate_pass . "', ";
+            $Query .= " terms_and_conditions		= '1', ";
+            $Query .= " privacy_policy				= '1', ";
+            $Query .= " associate_gstin_no			= '" . $associate_gstin_no . "', ";
+            $Query .= " associate_invite_code		= '" .  getlast_assoc_id() . "', ";
             $Query .= " sponsor_id					= '" . $sponsor_id . "', ";
-            $Query .= " associate_rera_reg_no					= '" . $associate_rera_reg_no . "', ";
-            $Query .= " associate_aadhar_card_front					= '" . $associate_aadhar_card_front . "', ";
-            $Query .= " associate_aadhar_card_back					= '" . $associate_aadhar_card_back . "', ";
-            $Query .= " associate_pan_card_front					= '" . $associate_pan_card_front . "', ";
-            $Query .= " associate_blank_cheque					= '" . $associate_blank_cheque . "' ";
+            $Query .= " associate_rera_reg_no		= '" . $associate_rera_reg_no . "', ";
+            $Query .= " associate_aadhar_card_front	= '" . $associate_aadhar_card_front . "', ";
+            $Query .= " associate_aadhar_card_back	= '" . $associate_aadhar_card_back . "', ";
+            $Query .= " associate_pan_card_front	= '" . $associate_pan_card_front . "', ";
+            $Query .= " associate_blank_cheque		= '" . $associate_blank_cheque . "' ";
 
             $objDB->setQuery($Query);
             $Query = $objDB->insert();
