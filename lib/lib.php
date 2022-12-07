@@ -200,7 +200,7 @@ function getassoc_invitecode($id)
 	$Query  = "SELECT * FROM " . TBL_ASSOCIATE_ACCOUNT . " WHERE associate_id='" . $id . "'";
 	$objDB->setQuery($Query);
 	$rsTotal = $objDB->select();
-	if ($rsTotal) {
+	if ($rsTotal != '') {
 		$val = $rsTotal[0]['associate_invite_code'];
 	} else {
 		$val = "";
@@ -218,10 +218,10 @@ function getteam_member($id)
 	$Query  = "SELECT associate_id FROM " . TBL_ASSOCIATE_ACCOUNT . " WHERE sponsor_id='" . $rsTotal1[0]['associate_invite_code'] . "' ORDER BY associate_id DESC";
 	$objDB->setQuery($Query);
 	$rsTotal = $objDB->select();
-	if ($rsTotal) {
+	if (count($rsTotal) > 0) {
 		$val = $rsTotal;
 	} else {
-		$val = [];
+		$val = '';
 	}
 	return $val;
 }
@@ -250,20 +250,22 @@ function getteam_member_arr($id)
 	}
 	return $val;
 }
-function get_hold_property_count($ids = array(), $type)
+function get_hold_property_count($ids = array(), $type, $selfid)
 {
 
 	global $objDB;
-	if (empty($ids)) {
-		$str = "WHERE associate_id = " . $ids . " AND";
+	if ($ids == '') {
+		$str = "WHERE associate_id = " . $selfid . " AND";
 	} else {
-		$str = "WHERE associate_id IN " . "(" . $ids . ")" . " AND";
+		$str = "WHERE associate_id IN (" .  $ids .  ") AND";
 	}
 
-	$Query1  = "SELECT ps.*,p.property_code,p.property_title,p.area_unit_type, u.* FROM property_slot ps
-	LEFT JOIN property p ON p.property_id=ps.property_id
-	LEFT JOIN property_unit u ON u.unit_id=ps.unit_id AND u.property_id = ps.property_id
-	" . $str . " slot_sell_type = " . $type . " ORDER BY slot_id DESC";
+	// $Query1 = "SELECT ps.*,p.property_code,p.property_title,p.area_unit_type, u.* from property_slot ps LEFT JOIN property p ON p.property_id = ps.property_id LEFT JOIN property_unit u ON u.unit_id = ps.unit_id AND u.property_id = ps.property_id WHERE associate_id IN (" . $ids . ") AND slot_sell_type = " . $type . " ORDER BY slot_id DESC";
+	$Query1 = "SELECT * from property_slot " . $str . " slot_sell_type =" . $type . " ORDER BY slot_id DESC";
+
+	// // LEFT JOIN property p ON p.property_id=ps.property_id
+	// // LEFT JOIN property_unit u ON u.unit_id=ps.unit_id AND u.property_id = ps.property_id
+	// // " . $str . " slot_sell_type = '" . $type . "' ORDER BY slot_id DESC";
 	$objDB->setQuery($Query1);
 	$rsTotal1 = $objDB->select();
 	if ($Query1) {
@@ -271,19 +273,26 @@ function get_hold_property_count($ids = array(), $type)
 	} else {
 		$val = 0;
 	}
+	// $val = $ids;
 	return $val;
 }
-function get_booked_property_count($ids = array(), $type)
+function get_booked_property_count($ids = array(), $type, $selfid)
 {
 	global $objDB;
+	if ($ids == '') {
+		$str = "WHERE associate_id = " . $selfid . " AND";
+	} else {
+		$str = "WHERE associate_id IN (" .  $ids .  ") AND";
+	}
+	// $Query1  = "SELECT ps.*,p.property_code,p.property_title,p.area_unit_type, u.* FROM property_slot ps
+	// LEFT JOIN property p ON p.property_id=ps.property_id
+	// LEFT JOIN property_unit u ON u.unit_id=ps.unit_id AND u.property_id = ps.property_id
+	// WHERE associate_id IN ('" . $ids . "') AND slot_sell_type = " . $type . " ORDER BY slot_id DESC";
+	$Query1 = "SELECT * from property_slot " . $str . " slot_sell_type =" . $type . " ORDER BY slot_id DESC";
 
-	$Query1  = "SELECT ps.*,p.property_code,p.property_title,p.area_unit_type, u.* FROM property_slot ps
-	LEFT JOIN property p ON p.property_id=ps.property_id
-	LEFT JOIN property_unit u ON u.unit_id=ps.unit_id AND u.property_id = ps.property_id
-	WHERE associate_id IN " . "(" . $ids . ")" . " AND slot_sell_type = " . $type . " ORDER BY slot_id DESC";
 	$objDB->setQuery($Query1);
 	$rsTotal1 = $objDB->select();
-	if ($Query1) {
+	if ($rsTotal1) {
 		$val = count($rsTotal1);
 	} else {
 		$val = 0;
