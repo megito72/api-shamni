@@ -9,10 +9,10 @@ function access_token_gen()
 	$characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 	$charactersLength = strlen($characters);
 	$randomString = '';
-	for ($i = 0; $i < 30; $i++) {
+	for ($i = 0; $i < 50; $i++) {
 		$randomString .= $characters[rand(0, $charactersLength - 1)];
 	}
-	return "Bearer " . $randomString;
+	return $randomString;
 }
 
 function verify_token($token)
@@ -54,7 +54,24 @@ function email_to_name($id)
 	}
 	return $val;
 }
+function get_project_amenities($id)
+{
 
+	global $objDB;
+	$val = '';
+
+	$Query  = "SELECT pa.amenities_id FROM " . TBL_PROJECT_AMINITIES . " AS pa JOIN " . TBL_ADMIN_AMENITIES . " AS am ON pa.amenities_id=am.amenities_id WHERE pa.property_id='" . $id . "' ORDER BY pa.property_id ";
+	// $Query  = "SELECT pa.amenities_id, am.amenities_name, am.amenities_icon FROM " . TBL_PROJECT_AMINITIES . " AS pa JOIN " . TBL_ADMIN_AMENITIES . " AS am ON pa.amenities_id=am.amenities_id WHERE pa.property_id='" . $id . "' ORDER BY pa.property_id ";
+	$objDB->setQuery($Query);
+	$rsTotal = $objDB->select();
+	if ($rsTotal) {
+		// $val = $rsTotal;
+		$val = implode(",", array_column($rsTotal, 'amenities_id'));
+	} else {
+		$val = "";
+	}
+	return $val;
+}
 function getsponsorid($id)
 {
 
@@ -93,6 +110,58 @@ function get_assoc_spons_id($id)
 		}
 	} else {
 		$val = "Invalid Associate ID";
+	}
+	return $val;
+}
+
+function get_city_name($id)
+{
+
+	global $objDB;
+	$val = '';
+
+	$Query  = "SELECT * FROM " . TBL_ADMIN_CITY . " WHERE city_id = '" . $id . "'";
+	$objDB->setQuery($Query);
+	$rsTotal = $objDB->select();
+	if ($rsTotal) {
+
+		$val = $rsTotal[0]['city_name'];
+	} else {
+		$val = "City Not Found";
+	}
+	return $val;
+}
+function get_locality_name($id)
+{
+
+	global $objDB;
+	$val = '';
+
+	$Query  = "SELECT * FROM " . TBL_ADMIN_LOCALITY . " WHERE locality_id = '" . $id . "'";
+	$objDB->setQuery($Query);
+	$rsTotal = $objDB->select();
+	if ($rsTotal) {
+
+		$val = $rsTotal[0]['locality_name'];
+	} else {
+		$val = "Locality Not Found";
+	}
+	return $val;
+}
+function get_property_type_name($id)
+{
+
+	global $objDB;
+	$val = '';
+
+	$Query  = "SELECT * FROM " . TBL_ADMIN_PROPERTY_TYPE . " WHERE id = '" . $id . "'";
+	$objDB->setQuery($Query);
+	$rsTotal = $objDB->select();
+	if ($rsTotal) {
+
+		$val = $rsTotal[0]['property_type_name'];
+	} else {
+		$val = "Property Type Name Not Found";
 	}
 	return $val;
 }

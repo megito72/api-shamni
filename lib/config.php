@@ -30,6 +30,10 @@ define('DBUSER', 'root');
 define('DBPASSWORD', 'redhat');
 
 define('TBL_ADMIN_BANK', 'admin_bank');
+define('TBL_ADMIN_CITY', 'admin_city');
+define('TBL_ADMIN_LOCALITY', 'admin_locality');
+define('TBL_ADMIN_AMENITIES', 'admin_amenities');
+define('TBL_ADMIN_PROPERTY_TYPE', 'admin_property_type');
 define('TBL_ASSOCIATE_ACCOUNT', 'associate_account');
 define('TBL_FREQUENTLY', 'frequently');
 define('TBL_INVESTORS', 'investors');
